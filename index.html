@@ -342,4 +342,259 @@ p{margin:0}
 }
 
 .links a { color: var(--accent); text-decoration: none; word-break: break-all; font-weight: 600; }
-.links a:hover { text
+.links a:hover { text-decoration: underline; }
+.links p { margin-top: 6px; }
+
+footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 14px; }
+
+@media (prefers-reduced-motion:reduce){
+  .inner { transition: none; }
+  .lib { transition: none; opacity: 1; transform: none; }
+  #quantum-canvas { display: none; }
+  .profile-pic-wrapper::after { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Background Canvas -->
+<canvas id="quantum-canvas"></canvas>
+
+<main>
+  <!-- Enhanced Header Block -->
+  <div class="header-block">
+    <div class="header-text">
+      <div class="eyebrow-container">
+        <span class="eyebrow">Student · Aspiring Physicist</span>
+        <span class="eyebrow-sub">• IISER Kolkata</span>
+      </div>
+      <h1>Mohammad Faran Siddiqui</h1>
+      <p class="lead">BS-MS student in Natural Science, working toward a career in quantum mechanics and quantum computing research.</p>
+    </div>
+    <div class="profile-pic-wrapper">
+      <img src="upload.jpeg" alt="Mohammad Faran Siddiqui" class="profile-pic" id="avatarImg">
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Education Box -->
+    <div class="card">
+      <h2>Education</h2>
+      <div class="row">
+        <b>Indian Institute of Science Education and Research</b>
+        <span class="muted">2026 – 2031</span>
+      </div>
+      <p class="muted">BS-MS in Natural Science (five-year integrated programme)</p>
+    </div>
+
+    <!-- Aspiration Box -->
+    <div class="card">
+      <h2>Aspiration</h2>
+      <p>To become a professor at the University of Oxford, teaching and researching quantum mechanics and quantum computing.</p>
+    </div>
+
+    <!-- Interests Box -->
+    <div class="card">
+      <h2>Interests</h2>
+      <div class="tags">
+        <span>Quantum Mechanics</span>
+        <span>Quantum Computing</span>
+        <span>Physics</span>
+        <span>Mathematics</span>
+      </div>
+    </div>
+
+    <!-- GitHub Box -->
+    <div class="card links">
+      <h2>GitHub</h2>
+      <p class="muted" style="margin-bottom:8px">Check out my repositories and code contributions:</p>
+      <p><a href="https://github.com/Fansid52" target="_blank" rel="noopener">github.com/Fansid52 ↗</a></p>
+    </div>
+
+    <!-- Contact Box -->
+    <div class="card links">
+      <h2>Contact</h2>
+      <p><span class="muted">Email:</span> <a href="mailto:faransiddiqui48@gmail.com">faransiddiqui48@gmail.com</a></p>
+      <p><span class="muted">College:</span> <a href="mailto:mfs26ms293@iiserkol.ac.in">mfs26ms293@iiserkol.ac.in</a></p>
+    </div>
+
+    <!-- LinkedIn Box -->
+    <div class="card links">
+      <h2>LinkedIn</h2>
+      <p class="muted" style="margin-bottom:8px">Connect with me professionally:</p>
+      <p><a href="https://www.linkedin.com/in/mohammad-faran-siddiqui-b2aa9341a" target="_blank" rel="noopener">linkedin.com/in/mohammad-faran-siddiqui ↗</a></p>
+    </div>
+  </div>
+
+  <!-- Empty Projects Section -->
+  <div class="card full-width">
+    <h2>Projects</h2>
+    <p class="muted">No projects yet. I’m just starting out, and my first projects will be added here as I build them.</p>
+  </div>
+
+  <!-- Interactive Skills Section -->
+  <div class="card full-width">
+    <h2>Skills</h2>
+    <p class="muted" style="font-size:12px;margin-bottom:12px">Click any flashcard to flip and explore tools & frameworks.</p>
+    
+    <div class="flashcards-wrapper">
+      <!-- Python Flashcard -->
+      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="Python skill card. Click to flip.">
+        <div class="inner">
+          <div class="face front">
+            <div>
+              <p class="muted" style="font-size:11px">Language</p>
+              <div class="big-title">Python</div>
+            </div>
+            <div class="tap-hint">Tap to expand ↺</div>
+          </div>
+          <div class="face back">
+            <span class="muted" style="font-size:11px;font-weight:600">LIBRARIES</span>
+            <div class="lib"><span>NumPy</span><span class="badge ok">Known</span></div>
+            <div class="lib"><span>QuTiP</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>Qiskit</span><span class="badge wip">Learning</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LaTeX Flashcard -->
+      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="LaTeX skill card. Click to flip.">
+        <div class="inner">
+          <div class="face front">
+            <div>
+              <p class="muted" style="font-size:11px">Typesetting</p>
+              <div class="big-title">LaTeX</div>
+            </div>
+            <div class="tap-hint">Tap to expand ↺</div>
+          </div>
+          <div class="face back">
+            <span class="muted" style="font-size:11px;font-weight:600">TOOLS & ENGINES</span>
+            <div class="lib"><span>Overleaf</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>TeX Live</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>MathJax</span><span class="badge wip">Learning</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Mohammad Faran Siddiqui</footer>
+</main>
+
+<script>
+// Image Error Fallback handling for GitHub Pages & Local
+const avatarImg = document.getElementById('avatarImg');
+const fallbacks = ['upload.jpeg', 'upload.jpg', 'upload.png', 'profile.jpg', 'profile.jpeg'];
+let currentIdx = 0;
+
+avatarImg.onerror = function() {
+  currentIdx++;
+  if (currentIdx < fallbacks.length) {
+    this.src = fallbacks[currentIdx];
+  }
+};
+
+// Interactive Flashcard Rotation & Ripple
+document.querySelectorAll('.interactive-card').forEach(function(card) {
+  function flip(e) {
+    var isPressed = card.getAttribute('aria-pressed') === 'true';
+    card.setAttribute('aria-pressed', isPressed ? 'false' : 'true');
+
+    var rect = card.getBoundingClientRect();
+    var ripple = document.createElement('span');
+    var diameter = Math.max(rect.width, rect.height);
+    var radius = diameter / 2;
+
+    var clientX = e.clientX || (rect.left + rect.width / 2);
+    var clientY = e.clientY || (rect.top + rect.height / 2);
+
+    ripple.style.width = ripple.style.height = diameter + 'px';
+    ripple.style.left = (clientX - rect.left - radius) + 'px';
+    ripple.style.top = (clientY - rect.top - radius) + 'px';
+    ripple.className = 'ripple';
+
+    var currentFace = isPressed ? card.querySelector('.front') : card.querySelector('.back');
+    var oldRipple = currentFace.querySelector('.ripple');
+    if (oldRipple) oldRipple.remove();
+
+    currentFace.appendChild(ripple);
+  }
+
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', function(e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      flip(e);
+    }
+  });
+});
+
+// Ambient Quantum Wave Particle Simulation
+const canvas = document.getElementById('quantum-canvas');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+let particles = [];
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.radius = Math.random() * 2 + 1;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 0 || this.x > width) this.vx *= -1;
+    if (this.y < 0 || this.y > height) this.vy *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = '#3b4cca';
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 45; i++) {
+  particles.push(new Particle());
+}
+
+function animate() {
+  ctx.clearRect(0, 0, width, height);
+
+  for (let i = 0; i < particles.length; i++) {
+    particles[i].update();
+    particles[i].draw();
+
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59, 76, 202, ${0.12 * (1 - dist / 120)})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
