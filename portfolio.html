@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohammad Faran Siddiqui | Portfolio</title>
+<style>
+:root{
+  --bg:#ffffff;
+  --card:#ffffff;
+  --text:#1d2433;
+  --muted:#5d667a;
+  --accent:#3b4cca;
+  --line:#3b4cca;
+  --card-border:#3b4cca;
+  --ok:#1f8a4c;
+  --wip:#b7791f;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:880px;margin:0 auto;padding:40px 20px 64px}
+
+/* Header Layout */
+.header-block{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  margin-bottom:28px;
+}
+
+.profile-pic{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--accent);
+  box-shadow:0 4px 12px rgba(59,76,204,0.12);
+  flex-shrink:0;
+  background:#ffffff;
+}
+
+.header-text{
+  flex:1;
+}
+
+@media (max-width:540px){
+  .header-block{
+    flex-direction:column-reverse;
+    align-items:flex-start;
+    gap:16px;
+  }
+  .profile-pic{
+    width:90px;
+    height:90px;
+  }
+}
+
+.eyebrow{font:600 13px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;margin:8px 0 6px;font-family:Georgia,serif}
+.lead{color:var(--muted);font-size:1.1rem;margin:0;max-width:680px}
+
+/* Grid Layout: 2 Rectangular Boxes per Row */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:20px;
+}
+
+@media (max-width:680px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Base Card Style */
+.card{
+  background:#ffffff;
+  border:1.5px solid var(--card-border);
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 4px 12px rgba(59,76,204,0.05);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  min-height:180px;
+  transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(59,76,204,0.12);
+}
+
+h2{font:600 12px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+p{margin:0}
+.row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.row b{font-weight:600}
+.muted{color:var(--muted)}
+
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.tags span{font:13px system-ui,sans-serif;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 12px;background:#ffffff}
+
+/* Full Width Card for Sections */
+.full-width {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+}
+
+.flashcards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* Interactive Flashcard Container */
+.interactive-card {
+  height: 165px;
+  perspective: 1000px;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.interactive-card:hover .inner {
+  transform: translateY(-2px);
+}
+
+.interactive-card[aria-pressed="true"] .inner {
+  transform: rotateY(180deg);
+}
+
+.interactive-card[aria-pressed="true"]:hover .inner {
+  transform: rotateY(180deg) translateY(-2px);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 1.5px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(59,76,204,0.06);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+}
+
+.interactive-card:hover .face {
+  box-shadow: 0 4px 16px rgba(59,76,204,0.15);
+}
+
+.back {
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+}
+
+.interactive-card:focus-visible .face {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.big-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.tap-hint {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.lib {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid #e3e1d9;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.interactive-card[aria-pressed="true"] .lib {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.interactive-card[aria-pressed="true"] .lib:nth-child(2) { transition-delay: 0.1s; }
+.interactive-card[aria-pressed="true"] .lib:nth-child(3) { transition-delay: 0.18s; }
+.interactive-card[aria-pressed="true"] .lib:nth-child(4) { transition-delay: 0.26s; }
+
+.lib:last-child { border-bottom: 0; }
+.badge { font: 600 10px system-ui,sans-serif; border-radius: 999px; padding: 1px 7px; border: 1px solid currentColor; }
+.ok { color: var(--ok); }
+.wip { color: var(--wip); }
+
+/* Dynamic Ripple Effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(59, 76, 202, 0.12);
+  transform: scale(0);
+  animation: ripple-anim 0.5s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.links a { color: var(--accent); text-decoration: none; word-break: break-all; font-weight: 500; }
+.links a:hover { text-decoration: underline; }
+.links p { margin-top: 6px; }
+
+footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 14px; }
+
+@media (prefers-reduced-motion:reduce){
+  .inner { transition: none; }
+  .lib { transition: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="header-block">
+    <div class="header-text">
+      <div class="eyebrow">Student · Aspiring Physicist</div>
+      <h1>Mohammad Faran Siddiqui</h1>
+      <p class="lead">BS-MS student in Natural Science, working toward a career in quantum mechanics and quantum computing research.</p>
+    </div>
+    <img src="C:\Users\faran\OneDrive\Desktop\upload.jpeg" alt="Mohammad Faran Siddiqui" class="profile-pic" onerror="this.onerror=null;this.src='upload.png';">
+  </div>
+
+  <div class="grid">
+    <!-- Education Box -->
+    <div class="card">
+      <h2>Education</h2>
+      <div class="row">
+        <b>Indian Institute of Science Education and Research</b>
+        <span class="muted">2026 – 2031</span>
+      </div>
+      <p class="muted">BS-MS in Natural Science (five-year integrated programme)</p>
+    </div>
+
+    <!-- Aspiration Box -->
+    <div class="card">
+      <h2>Aspiration</h2>
+      <p>To become a professor at the University of Oxford, teaching and researching quantum mechanics and quantum computing.</p>
+    </div>
+
+    <!-- Interests Box -->
+    <div class="card">
+      <h2>Interests</h2>
+      <div class="tags">
+        <span>Quantum Mechanics</span>
+        <span>Quantum Computing</span>
+        <span>Physics</span>
+        <span>Mathematics</span>
+      </div>
+    </div>
+
+    <!-- GitHub Box -->
+    <div class="card links">
+      <h2>GitHub</h2>
+      <p class="muted" style="margin-bottom:8px">Check out my repositories and code contributions:</p>
+      <p><a href="https://github.com/Fansid52" target="_blank" rel="noopener">github.com/Fansid52 ↗</a></p>
+    </div>
+
+    <!-- Contact Box -->
+    <div class="card links">
+      <h2>Contact</h2>
+      <p><span class="muted">Email:</span> <a href="mailto:faransiddiqui48@gmail.com">faransiddiqui48@gmail.com</a></p>
+      <p><span class="muted">College:</span> <a href="mailto:mfs26ms293@iiserkol.ac.in">mfs26ms293@iiserkol.ac.in</a></p>
+    </div>
+
+    <!-- LinkedIn Box -->
+    <div class="card links">
+      <h2>LinkedIn</h2>
+      <p class="muted" style="margin-bottom:8px">Connect with me professionally:</p>
+      <p><a href="https://www.linkedin.com/in/mohammad-faran-siddiqui-b2aa9341a" target="_blank" rel="noopener">linkedin.com/in/mohammad-faran-siddiqui ↗</a></p>
+    </div>
+  </div>
+
+  <!-- Empty Projects Section -->
+  <div class="card full-width">
+    <h2>Projects</h2>
+    <p class="muted">No projects yet. I’m just starting out, and my first projects will be added here as I build them.</p>
+  </div>
+
+  <!-- Interactive Skills Section -->
+  <div class="card full-width">
+    <h2>Skills</h2>
+    <p class="muted" style="font-size:12px;margin-bottom:12px">Click any flashcard to flip and explore tools & frameworks.</p>
+    
+    <div class="flashcards-wrapper">
+      <!-- Python Flashcard -->
+      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="Python skill card. Click to flip.">
+        <div class="inner">
+          <div class="face front">
+            <div>
+              <p class="muted" style="font-size:11px">Language</p>
+              <div class="big-title">Python</div>
+            </div>
+            <div class="tap-hint">Tap to expand ↺</div>
+          </div>
+          <div class="face back">
+            <span class="muted" style="font-size:11px;font-weight:600">LIBRARIES</span>
+            <div class="lib"><span>NumPy</span><span class="badge ok">Known</span></div>
+            <div class="lib"><span>QuTiP</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>Qiskit</span><span class="badge wip">Learning</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LaTeX Flashcard -->
+      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="LaTeX skill card. Click to flip.">
+        <div class="inner">
+          <div class="face front">
+            <div>
+              <p class="muted" style="font-size:11px">Typesetting</p>
+              <div class="big-title">LaTeX</div>
+            </div>
+            <div class="tap-hint">Tap to expand ↺</div>
+          </div>
+          <div class="face back">
+            <span class="muted" style="font-size:11px;font-weight:600">TOOLS & ENGINES</span>
+            <div class="lib"><span>Overleaf</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>TeX Live</span><span class="badge wip">Learning</span></div>
+            <div class="lib"><span>MathJax</span><span class="badge wip">Learning</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2026 Mohammad Faran Siddiqui</footer>
+</main>
+
+<script>
+document.querySelectorAll('.interactive-card').forEach(function(card) {
+  function flip(e) {
+    var isPressed = card.getAttribute('aria-pressed') === 'true';
+    card.setAttribute('aria-pressed', isPressed ? 'false' : 'true');
+
+    // Ripple Effect
+    var rect = card.getBoundingClientRect();
+    var ripple = document.createElement('span');
+    var diameter = Math.max(rect.width, rect.height);
+    var radius = diameter / 2;
+
+    var clientX = e.clientX || (rect.left + rect.width / 2);
+    var clientY = e.clientY || (rect.top + rect.height / 2);
+
+    ripple.style.width = ripple.style.height = diameter + 'px';
+    ripple.style.left = (clientX - rect.left - radius) + 'px';
+    ripple.style.top = (clientY - rect.top - radius) + 'px';
+    ripple.className = 'ripple';
+
+    var currentFace = isPressed ? card.querySelector('.front') : card.querySelector('.back');
+    var oldRipple = currentFace.querySelector('.ripple');
+    if (oldRipple) oldRipple.remove();
+
+    currentFace.appendChild(ripple);
+  }
+
+  card.addEventListener('click', flip);
+  card.addEventListener('keydown', function(e) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      flip(e);
+    }
+  });
+});
+</script>
+</body>
+</html>
