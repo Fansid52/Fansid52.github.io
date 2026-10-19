@@ -8,9 +8,10 @@
 :root{
   --bg:#ffffff;
   --card:#ffffff;
-  --text:#1d2433;
-  --muted:#5d667a;
+  --text:#1a202c;
+  --muted:#5a6578;
   --accent:#3b4cca;
+  --accent-light:#eef0ff;
   --line:#3b4cca;
   --card-border:#3b4cca;
   --ok:#1f8a4c;
@@ -22,49 +23,151 @@
 
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,sans-serif}
-main{max-width:880px;margin:0 auto;padding:40px 20px 64px}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  position:relative;
+  overflow-x:hidden;
+}
 
-/* Header Layout */
+/* Ambient Canvas Background */
+#quantum-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+main{
+  position: relative;
+  z-index: 1;
+  max-width:880px;
+  margin:0 auto;
+  padding:48px 20px 64px;
+}
+
+/* Enhanced Hero Header */
 .header-block{
   display:flex;
   align-items:center;
-  gap:24px;
-  margin-bottom:28px;
+  gap:28px;
+  margin-bottom:36px;
+  padding:28px;
+  background:#ffffff;
+  border:1.5px solid var(--accent);
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(59,76,202,0.08);
+  position:relative;
+  overflow:hidden;
+}
+
+.header-block::before {
+  content:'';
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle at 80% 20%, rgba(59,76,202,0.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+.profile-pic-wrapper {
+  position:relative;
+  flex-shrink:0;
+}
+
+.profile-pic-wrapper::after {
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:2px dashed var(--accent);
+  animation:rotate-ring 25s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes rotate-ring {
+  to { transform: rotate(360deg); }
 }
 
 .profile-pic{
-  width:110px;
-  height:110px;
+  width:120px;
+  height:120px;
   border-radius:50%;
   object-fit:cover;
-  border:2px solid var(--accent);
-  box-shadow:0 4px 12px rgba(59,76,204,0.12);
-  flex-shrink:0;
+  border:3px solid #ffffff;
+  box-shadow:0 6px 16px rgba(59,76,202,0.18);
+  display:block;
   background:#ffffff;
+  position:relative;
+  z-index:1;
 }
 
 .header-text{
   flex:1;
 }
 
-@media (max-width:540px){
+.eyebrow-container {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+
+.eyebrow{
+  font:600 12px/1 system-ui,sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-light);
+  padding:5px 12px;
+  border-radius:999px;
+}
+
+.eyebrow-sub {
+  font: 500 12px/1 system-ui,sans-serif;
+  color: var(--muted);
+}
+
+h1{
+  font-size:clamp(2.1rem, 5.5vw, 3rem);
+  line-height:1.15;
+  margin:4px 0 10px;
+  font-family:Georgia, serif;
+  color:#111827;
+  letter-spacing:-0.02em;
+}
+
+.lead{
+  color:var(--muted);
+  font-size:1.12rem;
+  margin:0;
+  max-width:680px;
+  line-height:1.6;
+}
+
+@media (max-width:580px){
   .header-block{
     flex-direction:column-reverse;
     align-items:flex-start;
-    gap:16px;
+    gap:20px;
+    padding:20px;
   }
   .profile-pic{
-    width:90px;
-    height:90px;
+    width:95px;
+    height:95px;
   }
 }
 
-.eyebrow{font:600 13px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-h1{font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;margin:8px 0 6px;font-family:Georgia,serif}
-.lead{color:var(--muted);font-size:1.1rem;margin:0;max-width:680px}
-
-/* Grid Layout: 2 Rectangular Boxes per Row */
+/* Grid Layout */
 .grid{
   display:grid;
   grid-template-columns:repeat(2, 1fr);
@@ -81,9 +184,9 @@ h1{font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;margin:8px 0 6px;font-famil
 .card{
   background:#ffffff;
   border:1.5px solid var(--card-border);
-  border-radius:14px;
+  border-radius:16px;
   padding:22px;
-  box-shadow:0 4px 12px rgba(59,76,204,0.05);
+  box-shadow:0 4px 14px rgba(59,76,202,0.05);
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
@@ -93,7 +196,7 @@ h1{font-size:clamp(2rem,5vw,2.8rem);line-height:1.15;margin:8px 0 6px;font-famil
 
 .card:hover{
   transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(59,76,204,0.12);
+  box-shadow:0 10px 24px rgba(59,76,202,0.12);
 }
 
 h2{font:600 12px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
@@ -103,9 +206,9 @@ p{margin:0}
 .muted{color:var(--muted)}
 
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.tags span{font:13px system-ui,sans-serif;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 12px;background:#ffffff}
+.tags span{font:13px system-ui,sans-serif;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 12px;background:#ffffff;font-weight:500}
 
-/* Full Width Card for Sections */
+/* Full Width Card */
 .full-width {
   grid-column: 1 / -1;
   margin-top: 20px;
@@ -118,7 +221,7 @@ p{margin:0}
   margin-top: 8px;
 }
 
-/* Interactive Flashcard Container */
+/* Flashcards */
 .interactive-card {
   height: 165px;
   perspective: 1000px;
@@ -159,13 +262,13 @@ p{margin:0}
   flex-direction: column;
   justify-content: space-between;
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(59,76,204,0.06);
+  box-shadow: 0 2px 8px rgba(59,76,202,0.06);
   overflow: hidden;
   transition: box-shadow 0.25s ease;
 }
 
 .interactive-card:hover .face {
-  box-shadow: 0 4px 16px rgba(59,76,204,0.15);
+  box-shadow: 0 6px 18px rgba(59,76,202,0.15);
 }
 
 .back {
@@ -238,169 +341,5 @@ p{margin:0}
   }
 }
 
-.links a { color: var(--accent); text-decoration: none; word-break: break-all; font-weight: 500; }
-.links a:hover { text-decoration: underline; }
-.links p { margin-top: 6px; }
-
-footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 14px; }
-
-@media (prefers-reduced-motion:reduce){
-  .inner { transition: none; }
-  .lib { transition: none; opacity: 1; transform: none; }
-}
-</style>
-</head>
-<body>
-<main>
-  <div class="header-block">
-    <div class="header-text">
-      <div class="eyebrow">Student · Aspiring Physicist</div>
-      <h1>Mohammad Faran Siddiqui</h1>
-      <p class="lead">BS-MS student in Natural Science, working toward a career in quantum mechanics and quantum computing research.</p>
-    </div>
-    <img src="upload.jpeg" alt="Mohammad Faran Siddiqui" class="profile-pic" onerror="this.onerror=null;this.src='upload.png';">
-  </div>
-
-  <div class="grid">
-    <!-- Education Box -->
-    <div class="card">
-      <h2>Education</h2>
-      <div class="row">
-        <b>Indian Institute of Science Education and Research</b>
-        <span class="muted">2026 – 2031</span>
-      </div>
-      <p class="muted">BS-MS in Natural Science (five-year integrated programme)</p>
-    </div>
-
-    <!-- Aspiration Box -->
-    <div class="card">
-      <h2>Aspiration</h2>
-      <p>To become a professor at the University of Oxford, teaching and researching quantum mechanics and quantum computing.</p>
-    </div>
-
-    <!-- Interests Box -->
-    <div class="card">
-      <h2>Interests</h2>
-      <div class="tags">
-        <span>Quantum Mechanics</span>
-        <span>Quantum Computing</span>
-        <span>Physics</span>
-        <span>Mathematics</span>
-      </div>
-    </div>
-
-    <!-- GitHub Box -->
-    <div class="card links">
-      <h2>GitHub</h2>
-      <p class="muted" style="margin-bottom:8px">Check out my repositories and code contributions:</p>
-      <p><a href="https://github.com/Fansid52" target="_blank" rel="noopener">github.com/Fansid52 ↗</a></p>
-    </div>
-
-    <!-- Contact Box -->
-    <div class="card links">
-      <h2>Contact</h2>
-      <p><span class="muted">Email:</span> <a href="mailto:faransiddiqui48@gmail.com">faransiddiqui48@gmail.com</a></p>
-      <p><span class="muted">College:</span> <a href="mailto:mfs26ms293@iiserkol.ac.in">mfs26ms293@iiserkol.ac.in</a></p>
-    </div>
-
-    <!-- LinkedIn Box -->
-    <div class="card links">
-      <h2>LinkedIn</h2>
-      <p class="muted" style="margin-bottom:8px">Connect with me professionally:</p>
-      <p><a href="https://www.linkedin.com/in/mohammad-faran-siddiqui-b2aa9341a" target="_blank" rel="noopener">linkedin.com/in/mohammad-faran-siddiqui ↗</a></p>
-    </div>
-  </div>
-
-  <!-- Empty Projects Section -->
-  <div class="card full-width">
-    <h2>Projects</h2>
-    <p class="muted">No projects yet. I’m just starting out, and my first projects will be added here as I build them.</p>
-  </div>
-
-  <!-- Interactive Skills Section -->
-  <div class="card full-width">
-    <h2>Skills</h2>
-    <p class="muted" style="font-size:12px;margin-bottom:12px">Click any flashcard to flip and explore tools & frameworks.</p>
-    
-    <div class="flashcards-wrapper">
-      <!-- Python Flashcard -->
-      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="Python skill card. Click to flip.">
-        <div class="inner">
-          <div class="face front">
-            <div>
-              <p class="muted" style="font-size:11px">Language</p>
-              <div class="big-title">Python</div>
-            </div>
-            <div class="tap-hint">Tap to expand ↺</div>
-          </div>
-          <div class="face back">
-            <span class="muted" style="font-size:11px;font-weight:600">LIBRARIES</span>
-            <div class="lib"><span>NumPy</span><span class="badge ok">Known</span></div>
-            <div class="lib"><span>QuTiP</span><span class="badge wip">Learning</span></div>
-            <div class="lib"><span>Qiskit</span><span class="badge wip">Learning</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LaTeX Flashcard -->
-      <div class="interactive-card" tabindex="0" role="button" aria-pressed="false" aria-label="LaTeX skill card. Click to flip.">
-        <div class="inner">
-          <div class="face front">
-            <div>
-              <p class="muted" style="font-size:11px">Typesetting</p>
-              <div class="big-title">LaTeX</div>
-            </div>
-            <div class="tap-hint">Tap to expand ↺</div>
-          </div>
-          <div class="face back">
-            <span class="muted" style="font-size:11px;font-weight:600">TOOLS & ENGINES</span>
-            <div class="lib"><span>Overleaf</span><span class="badge wip">Learning</span></div>
-            <div class="lib"><span>TeX Live</span><span class="badge wip">Learning</span></div>
-            <div class="lib"><span>MathJax</span><span class="badge wip">Learning</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>© 2026 Mohammad Faran Siddiqui</footer>
-</main>
-
-<script>
-document.querySelectorAll('.interactive-card').forEach(function(card) {
-  function flip(e) {
-    var isPressed = card.getAttribute('aria-pressed') === 'true';
-    card.setAttribute('aria-pressed', isPressed ? 'false' : 'true');
-
-    // Ripple Effect
-    var rect = card.getBoundingClientRect();
-    var ripple = document.createElement('span');
-    var diameter = Math.max(rect.width, rect.height);
-    var radius = diameter / 2;
-
-    var clientX = e.clientX || (rect.left + rect.width / 2);
-    var clientY = e.clientY || (rect.top + rect.height / 2);
-
-    ripple.style.width = ripple.style.height = diameter + 'px';
-    ripple.style.left = (clientX - rect.left - radius) + 'px';
-    ripple.style.top = (clientY - rect.top - radius) + 'px';
-    ripple.className = 'ripple';
-
-    var currentFace = isPressed ? card.querySelector('.front') : card.querySelector('.back');
-    var oldRipple = currentFace.querySelector('.ripple');
-    if (oldRipple) oldRipple.remove();
-
-    currentFace.appendChild(ripple);
-  }
-
-  card.addEventListener('click', flip);
-  card.addEventListener('keydown', function(e) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      flip(e);
-    }
-  });
-});
-</script>
-</body>
-</html>
+.links a { color: var(--accent); text-decoration: none; word-break: break-all; font-weight: 600; }
+.links a:hover { text
