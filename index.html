@@ -12,8 +12,6 @@
   --muted:#5a6578;
   --accent:#3b4cca;
   --accent-light:#eef0ff;
-  --line:#3b4cca;
-  --card-border:#3b4cca;
   --ok:#1f8a4c;
   --wip:#b7791f;
   box-sizing:border-box;
@@ -41,7 +39,7 @@ body{
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.35;
+  opacity: 0.25;
 }
 
 main{
@@ -52,62 +50,60 @@ main{
   padding:48px 20px 64px;
 }
 
-/* Enhanced Hero Header */
+/* Gradient Border Helper Mixin (Pure CSS Masking) */
+.gradient-box {
+  background: #ffffff;
+  position: relative;
+  border-radius: 18px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gradient-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1.5px; /* Gradient Border Thickness */
+  background: linear-gradient(135deg, rgba(59,76,202,0.6), rgba(140,155,255,0.2), rgba(59,76,202,0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.gradient-box:hover::before {
+  background: linear-gradient(135deg, rgba(59,76,202,0.9), rgba(140,155,255,0.5), rgba(59,76,202,0.8));
+}
+
+/* Enhanced Header Block */
 .header-block{
   display:flex;
   align-items:center;
   gap:28px;
-  margin-bottom:36px;
+  margin-bottom:32px;
   padding:28px;
-  background:#ffffff;
-  border:1.5px solid var(--accent);
-  border-radius:20px;
-  box-shadow:0 10px 30px rgba(59,76,202,0.08);
-  position:relative;
-  overflow:hidden;
-}
-
-.header-block::before {
-  content:'';
-  position:absolute;
-  top:-50%;
-  left:-50%;
-  width:200%;
-  height:200%;
-  background:radial-gradient(circle at 80% 20%, rgba(59,76,202,0.04) 0%, transparent 60%);
-  pointer-events:none;
+  box-shadow:0 8px 30px rgba(59,76,202,0.06);
 }
 
 .profile-pic-wrapper {
   position:relative;
   flex-shrink:0;
-}
-
-.profile-pic-wrapper::after {
-  content:'';
-  position:absolute;
-  inset:-4px;
-  border-radius:50%;
-  border:2px dashed var(--accent);
-  animation:rotate-ring 25s linear infinite;
-  opacity:0.6;
-}
-
-@keyframes rotate-ring {
-  to { transform: rotate(360deg); }
-}
-
-.profile-pic{
   width:120px;
   height:120px;
   border-radius:50%;
+  padding:3px;
+  background: linear-gradient(135deg, #3b4cca, #8c9bff, rgba(59,76,202,0.3));
+  box-shadow:0 6px 18px rgba(59,76,202,0.15);
+}
+
+.profile-pic{
+  width:100%;
+  height:100%;
+  border-radius:50%;
   object-fit:cover;
-  border:3px solid #ffffff;
-  box-shadow:0 6px 16px rgba(59,76,202,0.18);
   display:block;
   background:#ffffff;
-  position:relative;
-  z-index:1;
 }
 
 .header-text{
@@ -161,7 +157,7 @@ h1{
     gap:20px;
     padding:20px;
   }
-  .profile-pic{
+  .profile-pic-wrapper{
     width:95px;
     height:95px;
   }
@@ -182,21 +178,17 @@ h1{
 
 /* Base Card Style */
 .card{
-  background:#ffffff;
-  border:1.5px solid var(--card-border);
-  border-radius:16px;
   padding:22px;
-  box-shadow:0 4px 14px rgba(59,76,202,0.05);
+  box-shadow:0 4px 14px rgba(59,76,202,0.04);
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
   min-height:180px;
-  transition:transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover{
   transform:translateY(-3px);
-  box-shadow:0 10px 24px rgba(59,76,202,0.12);
+  box-shadow:0 10px 24px rgba(59,76,202,0.1);
 }
 
 h2{font:600 12px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
@@ -206,7 +198,16 @@ p{margin:0}
 .muted{color:var(--muted)}
 
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.tags span{font:13px system-ui,sans-serif;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 12px;background:#ffffff;font-weight:500}
+.tags span{
+  font:13px system-ui,sans-serif;
+  color:var(--accent);
+  border-radius:999px;
+  padding:4px 12px;
+  background:#ffffff;
+  font-weight:500;
+  position:relative;
+  box-shadow: 0 0 0 1px rgba(59,76,202,0.3);
+}
 
 /* Full Width Card */
 .full-width {
@@ -255,20 +256,32 @@ p{margin:0}
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border: 1.5px solid var(--accent);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: #ffffff;
-  box-shadow: 0 2px 8px rgba(59,76,202,0.06);
+  box-shadow: 0 4px 12px rgba(59,76,202,0.06);
   overflow: hidden;
   transition: box-shadow 0.25s ease;
 }
 
+.face::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(59,76,202,0.5), rgba(140,155,255,0.2), rgba(59,76,202,0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 .interactive-card:hover .face {
-  box-shadow: 0 6px 18px rgba(59,76,202,0.15);
+  box-shadow: 0 8px 20px rgba(59,76,202,0.12);
 }
 
 .back {
@@ -351,7 +364,6 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
   .inner { transition: none; }
   .lib { transition: none; opacity: 1; transform: none; }
   #quantum-canvas { display: none; }
-  .profile-pic-wrapper::after { animation: none; }
 }
 </style>
 </head>
@@ -361,8 +373,8 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
 <canvas id="quantum-canvas"></canvas>
 
 <main>
-  <!-- Enhanced Header Block -->
-  <div class="header-block">
+  <!-- Header Block with Soft Gradient Border -->
+  <div class="header-block gradient-box">
     <div class="header-text">
       <div class="eyebrow-container">
         <span class="eyebrow">Student · Aspiring Physicist</span>
@@ -378,7 +390,7 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
 
   <div class="grid">
     <!-- Education Box -->
-    <div class="card">
+    <div class="card gradient-box">
       <h2>Education</h2>
       <div class="row">
         <b>Indian Institute of Science Education and Research</b>
@@ -388,13 +400,13 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
     </div>
 
     <!-- Aspiration Box -->
-    <div class="card">
+    <div class="card gradient-box">
       <h2>Aspiration</h2>
       <p>To become a professor at the University of Oxford, teaching and researching quantum mechanics and quantum computing.</p>
     </div>
 
     <!-- Interests Box -->
-    <div class="card">
+    <div class="card gradient-box">
       <h2>Interests</h2>
       <div class="tags">
         <span>Quantum Mechanics</span>
@@ -405,21 +417,21 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
     </div>
 
     <!-- GitHub Box -->
-    <div class="card links">
+    <div class="card links gradient-box">
       <h2>GitHub</h2>
       <p class="muted" style="margin-bottom:8px">Check out my repositories and code contributions:</p>
       <p><a href="https://github.com/Fansid52" target="_blank" rel="noopener">github.com/Fansid52 ↗</a></p>
     </div>
 
     <!-- Contact Box -->
-    <div class="card links">
+    <div class="card links gradient-box">
       <h2>Contact</h2>
       <p><span class="muted">Email:</span> <a href="mailto:faransiddiqui48@gmail.com">faransiddiqui48@gmail.com</a></p>
       <p><span class="muted">College:</span> <a href="mailto:mfs26ms293@iiserkol.ac.in">mfs26ms293@iiserkol.ac.in</a></p>
     </div>
 
     <!-- LinkedIn Box -->
-    <div class="card links">
+    <div class="card links gradient-box">
       <h2>LinkedIn</h2>
       <p class="muted" style="margin-bottom:8px">Connect with me professionally:</p>
       <p><a href="https://www.linkedin.com/in/mohammad-faran-siddiqui-b2aa9341a" target="_blank" rel="noopener">linkedin.com/in/mohammad-faran-siddiqui ↗</a></p>
@@ -427,13 +439,13 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
   </div>
 
   <!-- Empty Projects Section -->
-  <div class="card full-width">
+  <div class="card full-width gradient-box">
     <h2>Projects</h2>
     <p class="muted">No projects yet. I’m just starting out, and my first projects will be added here as I build them.</p>
   </div>
 
   <!-- Interactive Skills Section -->
-  <div class="card full-width">
+  <div class="card full-width gradient-box">
     <h2>Skills</h2>
     <p class="muted" style="font-size:12px;margin-bottom:12px">Click any flashcard to flip and explore tools & frameworks.</p>
     
@@ -482,7 +494,7 @@ footer { margin-top: 48px; text-align: center; color: var(--muted); font-size: 1
 </main>
 
 <script>
-// Image Error Fallback handling for GitHub Pages & Local
+// Image Fallback Handling
 const avatarImg = document.getElementById('avatarImg');
 const fallbacks = ['upload.jpeg', 'upload.jpg', 'upload.png', 'profile.jpg', 'profile.jpeg'];
 let currentIdx = 0;
@@ -491,6 +503,8 @@ avatarImg.onerror = function() {
   currentIdx++;
   if (currentIdx < fallbacks.length) {
     this.src = fallbacks[currentIdx];
+  } else {
+    this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="100%" height="100%" fill="%233b4cca"/><text x="50%" y="55%" font-size="42" font-family="sans-serif" font-weight="bold" fill="%23ffffff" text-anchor="middle" dominant-baseline="middle">MFS</text></svg>';
   }
 };
 
@@ -566,7 +580,7 @@ class Particle {
   }
 }
 
-for (let i = 0; i < 45; i++) {
+for (let i = 0; i < 40; i++) {
   particles.push(new Particle());
 }
 
